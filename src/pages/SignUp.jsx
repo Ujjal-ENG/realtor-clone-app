@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { AiFillEye } from 'react-icons/ai';
 import { AiFillEyeInvisible } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+// import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+
+import { db } from '../firebase.js';
 
 import OAuth from '../components/OAuth';
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 const SignUp = () => {
     const [showPass, setPass] = useState(false);
@@ -12,6 +18,9 @@ const SignUp = () => {
         email: '',
         password: ''
     });
+
+    const navigate = useNavigate();
+
     const { name, email, password } = formData;
 
     const handleChange = (e) => {
@@ -19,6 +28,28 @@ const SignUp = () => {
             ...prevState,
             [e.target.id]: e.target.value
         }));
+    };
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const auth = getAuth();
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            updateProfile(auth.currentUser, {
+                displayName: name
+            });
+            const formDataCopy = { ...formData };
+            delete formDataCopy.password;
+            formDataCopy.timestamp = serverTimestamp();
+
+            await setDoc(doc(db, 'users', user.uid), formDataCopy);
+
+            navigate('/');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const chnageShowpass = () => {
@@ -43,7 +74,7 @@ const SignUp = () => {
 
                 {/* right side */}
                 <div className="w-3/4 md:w-1/2 ">
-                    <form action="" className="space-y-9">
+                    <form action="" className="space-y-9" onSubmit={onSubmit}>
                         <input
                             type="text"
                             id="name"
