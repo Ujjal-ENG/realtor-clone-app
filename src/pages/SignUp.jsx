@@ -82,9 +82,9 @@ const SignUp = () => {
 
                             <div className="flex justify-between mt-9 items-center">
                                 <p>
-                                    Have a Account?{' '}
+                                    Have an Account?{' '}
                                     <Link className="text-red-500 font-semibold text-lg" to="/sign-in">
-                                        Register
+                                        Sign In
                                     </Link>
                                 </p>
 
