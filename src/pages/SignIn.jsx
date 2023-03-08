@@ -78,7 +78,9 @@ const SignIn = () => {
                             </div>
 
                             {/* sign-in button */}
-                            <button class="btn bg-blue-600 border-none mt-9 w-full">Wide</button>
+                            <button type="submit" class="btn bg-blue-600 border-none mt-9 w-full">
+                                Wide
+                            </button>
 
                             <div class="divider font-bold mt-9">OR</div>
 
