@@ -88,7 +88,9 @@ const SignUp = () => {
                                     </Link>
                                 </p>
 
-                                <p className="text-lg text-blue-500 font-semibold">Forgot password?</p>
+                                <Link className="text-lg text-blue-500 font-semibold" to="/forgot-password">
+                                    Forgot password?
+                                </Link>
                             </div>
 
                             {/* sign-in button */}
