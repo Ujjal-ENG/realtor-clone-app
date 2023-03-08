@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AiFillEye } from 'react-icons/ai';
 import { AiFillEyeInvisible } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 import OAuth from '../components/OAuth';
 
@@ -70,16 +71,21 @@ const SignIn = () => {
                             {/* account and forgot password section */}
 
                             <div className="flex justify-between mt-9 items-center">
-                                <p>
-                                    Don't have an account? <span className="text-red-500 font-semibold text-lg">Register</span>
-                                </p>
+                                <Link>
+                                    Don't have an account?{' '}
+                                    <Link className="text-red-500 font-semibold text-lg" to="/sign-up">
+                                        Register
+                                    </Link>
+                                </Link>
 
-                                <p className="text-lg text-blue-500 font-semibold">Forgot password?</p>
+                                <Link className="text-lg text-blue-500 font-semibold" to="/forgot-password">
+                                    Forgot password?
+                                </Link>
                             </div>
 
                             {/* sign-in button */}
-                            <button type="submit" class="btn bg-blue-600 border-none mt-9 w-full">
-                                Wide
+                            <button type="submit" class="btn bg-blue-600 border-none mt-9 w-full lowercase text-2xl">
+                                Sign In
                             </button>
 
                             <div class="divider font-bold mt-9">OR</div>
