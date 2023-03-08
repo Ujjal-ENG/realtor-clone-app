@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { AiFillEye } from 'react-icons/ai';
 import { AiFillEyeInvisible } from 'react-icons/ai';
-import { FcGoogle } from 'react-icons/fc';
+
+import OAuth from '../components/OAuth';
 
 const SignIn = () => {
     const [showPass, setPass] = useState(false);
@@ -81,9 +82,7 @@ const SignIn = () => {
 
                             <div class="divider font-bold mt-9">OR</div>
 
-                            <button class="btn bg-red-600 border-none mt-9 w-full uppercase text-xl">
-                                <FcGoogle className="mx-2" /> continue with google
-                            </button>
+                            <OAuth />
                         </div>
                     </form>
                 </div>
