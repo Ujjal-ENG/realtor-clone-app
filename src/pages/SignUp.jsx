@@ -94,11 +94,11 @@ const SignUp = () => {
                             </div>
 
                             {/* sign-in button */}
-                            <button type="submit" class="btn bg-blue-600 border-none mt-9 w-full lowercase text-2xl">
+                            <button type="submit" className="btn bg-blue-600 border-none mt-9 w-full lowercase text-2xl">
                                 Sign Up
                             </button>
 
-                            <div class="divider font-bold mt-9">OR</div>
+                            <div className="divider font-bold mt-9">OR</div>
 
                             <OAuth />
                         </div>
