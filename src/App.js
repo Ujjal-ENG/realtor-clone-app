@@ -18,6 +18,7 @@ const App = () => {
                 <Route exact path="/sing-up" element={<SignUp />} />
                 <Route exact path="/forgot-password" element={<ForgotPassword />} />
                 <Route exact path="/offers" element={<Offers />} />
+                <Route path="*" element="No Path FOund" />
             </Routes>
         </>
     );
