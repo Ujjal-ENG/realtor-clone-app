@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { FcHome } from 'react-icons/fc';
 const Header = () => {
     return (
         <div>
@@ -8,6 +8,7 @@ const Header = () => {
                 <nav className="navbar bg-base-100 shadow-2xl">
                     <div className="flex-1">
                         <Link className="btn btn-ghost normal-case text-3xl" to="/">
+                            <FcHome />
                             <span className="text-red-500">real</span>tor.com
                         </Link>
                     </div>
