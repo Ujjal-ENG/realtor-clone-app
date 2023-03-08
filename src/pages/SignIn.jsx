@@ -18,7 +18,7 @@ const SignIn = () => {
     };
 
     const chnageShowpass = () => {
-        setPass(!showPass);
+        setPass((prevState) => !prevState);
     };
 
     return (
