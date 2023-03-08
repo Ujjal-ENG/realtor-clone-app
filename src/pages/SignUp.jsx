@@ -11,6 +11,8 @@ import { db } from '../firebase.js';
 import OAuth from '../components/OAuth';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
+import { toast } from 'react-toastify';
+
 const SignUp = () => {
     const [showPass, setPass] = useState(false);
     const [formData, setFormData] = useState({
@@ -45,10 +47,10 @@ const SignUp = () => {
             formDataCopy.timestamp = serverTimestamp();
 
             await setDoc(doc(db, 'users', user.uid), formDataCopy);
-
+            toast.success('Successfully Created the Account');
             navigate('/');
         } catch (error) {
-            console.log(error);
+            toast.error(error);
         }
     };
 

@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
@@ -22,6 +25,8 @@ const App = () => {
                 <Route exact path="/offers" element={<Offers />} />
                 <Route path="*" element="No Path FOund" />
             </Routes>
+
+            <ToastContainer position="bottom-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" />
         </>
     );
 };
