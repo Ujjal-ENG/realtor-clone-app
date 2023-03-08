@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AiFillEye } from 'react-icons/ai';
 import { AiFillEyeInvisible } from 'react-icons/ai';
+import { FcGoogle } from 'react-icons/fc';
 
 const SignIn = () => {
     const [showPass, setPass] = useState(false);
@@ -64,6 +65,25 @@ const SignIn = () => {
                             <div className="absolute top-3 right-8 text-2xl cursor-pointer" onClick={chnageShowpass}>
                                 {showPass ? <AiFillEye /> : <AiFillEyeInvisible />}
                             </div>
+
+                            {/* account and forgot password section */}
+
+                            <div className="flex justify-between mt-9 items-center">
+                                <p>
+                                    Don't have an account? <span className="text-red-500 font-semibold text-lg">Register</span>
+                                </p>
+
+                                <p className="text-lg text-blue-500 font-semibold">Forgot password?</p>
+                            </div>
+
+                            {/* sign-in button */}
+                            <button class="btn bg-blue-600 border-none mt-9 w-full">Wide</button>
+
+                            <div class="divider font-bold mt-9">OR</div>
+
+                            <button class="btn bg-red-600 border-none mt-9 w-full uppercase text-xl">
+                                <FcGoogle className="mx-2" /> continue with google
+                            </button>
                         </div>
                     </form>
                 </div>
