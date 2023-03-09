@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { AiFillEye } from 'react-icons/ai';
 import { AiFillEyeInvisible } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import OAuth from '../components/OAuth';
+import { toast } from 'react-toastify';
 
 const SignIn = () => {
     const [showPass, setPass] = useState(false);
@@ -22,6 +23,21 @@ const SignIn = () => {
 
     const chnageShowpass = () => {
         setPass((prevState) => !prevState);
+    };
+    const navigate = useNavigate();
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const auth = getAuth();
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+            if (userCredential) {
+                navigate('/');
+                toast.success('Successfully Login!!');
+            }
+        } catch (error) {
+            toast.error('Invalid Email or Password!!');
+        }
     };
 
     return (
@@ -42,7 +58,7 @@ const SignIn = () => {
 
                 {/* right side */}
                 <div className="w-3/4 md:w-1/2 ">
-                    <form action="" className="space-y-9">
+                    <form action="" className="space-y-9" onSubmit={onSubmit}>
                         <input
                             type="email"
                             id="email"
