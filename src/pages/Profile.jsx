@@ -1,5 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
     const auth = getAuth();
@@ -8,7 +10,12 @@ const Profile = () => {
         email: auth.currentUser.email
     });
     const { name, email } = formData;
-
+    const navigate = useNavigate();
+    const onLogout = () => {
+        auth.signOut();
+        navigate('/');
+        toast.success('You are Successfully Log out!!');
+    };
     return (
         <>
             <section>
@@ -47,7 +54,9 @@ const Profile = () => {
                             <p className="text-xl font-semibold">
                                 Do you want to change your name? <span className="text-red-600 hover:text-red-900 font-bold cursor-pointer transition ease-in-out">Edit</span>
                             </p>
-                            <p className=" text-xl font-semibold text-blue-600 cursor-pointer hover:font-bold hover:text-blue-800 transition ease-in-out">Sign Out</p>
+                            <p className=" text-xl font-semibold text-blue-600 cursor-pointer hover:font-bold hover:text-blue-800 transition ease-in-out" onClick={onLogout}>
+                                Sign Out
+                            </p>
                         </div>
                     </form>
                 </div>
