@@ -59,7 +59,7 @@ const Header = () => {
                                 </li>
 
                                 <li>
-                                    <Link to={pageState === 'sign in' ? '/sing-in' : '/profile'}>{pageState}</Link>
+                                    <Link to={pageState === 'sign in' ? '/sign-in' : '/profile'}>{pageState}</Link>
                                 </li>
                             </ul>
                         </div>
