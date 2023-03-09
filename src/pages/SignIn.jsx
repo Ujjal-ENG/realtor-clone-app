@@ -71,12 +71,12 @@ const SignIn = () => {
                             {/* account and forgot password section */}
 
                             <div className="flex justify-between mt-9 items-center">
-                                <Link>
+                                <h1>
                                     Don't have an account?{' '}
                                     <Link className="text-red-500 font-semibold text-lg" to="/sign-up">
                                         Register
                                     </Link>
-                                </Link>
+                                </h1>
 
                                 <Link className="text-lg text-blue-500 font-semibold" to="/forgot-password">
                                     Forgot password?
