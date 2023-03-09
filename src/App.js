@@ -11,6 +11,7 @@ import SignUp from './pages/SignUp';
 import ForgotPassword from './pages/ForgotPasword';
 import Offers from './pages/Offers';
 import Header from './components/Header';
+import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
     return (
@@ -18,7 +19,10 @@ const App = () => {
             <Header />
             <Routes>
                 <Route exact path="/" element={<Home />} />
-                <Route exact path="/profile" element={<Profile />} />
+
+                <Route path="/profile" element={<PrivateRoute />}>
+                    <Route exact path="/profile" element={<Profile />} />
+                </Route>
                 <Route exact path="/sign-in" element={<SignIn />} />
                 <Route exact path="/sign-up" element={<SignUp />} />
                 <Route exact path="/forgot-password" element={<ForgotPassword />} />
