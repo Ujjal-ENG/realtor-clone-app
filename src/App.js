@@ -12,6 +12,7 @@ import ForgotPassword from './pages/ForgotPasword';
 import Offers from './pages/Offers';
 import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
+import CreateListing from './pages/CreateListing';
 
 const App = () => {
     return (
@@ -27,6 +28,7 @@ const App = () => {
                 <Route exact path="/sign-up" element={<SignUp />} />
                 <Route exact path="/forgot-password" element={<ForgotPassword />} />
                 <Route exact path="/offers" element={<Offers />} />
+                <Route exact path="/create-listing" element={<CreateListing />} />
                 <Route path="*" element="No Path FOund" />
             </Routes>
 
