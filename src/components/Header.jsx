@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FcHome } from 'react-icons/fc';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 const Header = () => {
+    const [pageState, setPageState] = useState('sign in');
+
+    const auth = getAuth();
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setPageState('Profile');
+            } else {
+                setPageState('Sing In');
+            }
+        });
+    }, [auth]);
+
     return (
         <div>
             <header>
@@ -45,7 +59,7 @@ const Header = () => {
                                 </li>
 
                                 <li>
-                                    <Link to="/sign-in">SignIn</Link>
+                                    <Link to={pageState === 'sign in' ? '/sing-in' : '/profile'}>{pageState}</Link>
                                 </li>
                             </ul>
                         </div>
