@@ -1,36 +1,66 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import Spinner from '../components/Spinner';
 
 const CreateListing = () => {
+    const [geoLoactionEnabled, setGeoLoactionEnabled] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         type: 'rent',
         name: '',
-        bedrooms: 1,
-        bathrooms: 2,
+        bedrooms: 0,
+        bathrooms: 0,
         address: '',
         description: '',
-        parking: false,
-        furnished: false,
-        offer: false,
-        regularPrice: 11,
-        discountedPrice: 12
+        parking: 'yes',
+        furnished: 'yes',
+        offer: 'no',
+        regularPrice: 0,
+        discountedPrice: 0,
+        latitude: 0,
+        longitude: 0
     });
-    const { type, name, bedrooms, bathrooms, address, description, parking, offer, furnished, regularPrice, discountedPrice } = formData;
+    const { type, name, bedrooms, bathrooms, address, description, parking, offer, furnished, regularPrice, discountedPrice, latitude, longitude } = formData;
     const onChange = (e) => {
         e.preventDefault();
-        setFormData(!type);
+        if (e.target.files) {
+            setFormData((prevState) => ({
+                ...prevState,
+                images: e.target.files
+            }));
+        }
+        if (!e.target.files) {
+            setFormData((prevState) => ({
+                ...prevState,
+                [e.target.id]: e.target.value
+            }));
+        }
     };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        setLoading(false);
+        if (discountedPrice >= regularPrice) {
+            setLoading(false);
+            toast.error('Discounted Price needs to be less than regular price');
+        }
+        return;
+    };
+    if (loading) {
+        return <Spinner />;
+    }
     return (
         <main className="max-w-md px-2 mx-auto">
             <h1 className="text-3xl text-center mt-6 font-bold">Create a Listing</h1>
 
-            <form>
+            <form onSubmit={onSubmit}>
                 <p className="text-lg mt-6 font-semibold">Sell / Rent</p>
 
                 <div className="flex justify-between gap-4 mt-4 items-center">
-                    <button className={`btn w-1/2 ${type === 'sell' ? 'bg-white text-black border-none' : 'btn'}`} id="type" value="sale" onClick={onChange}>
+                    <button className={`btn w-1/2 ${type === 'sell' ? 'btn' : 'bg-white text-black border-none'}`} id="type" value="sell" onClick={onChange}>
                         Sell
                     </button>
-                    <button className={`btn w-1/2 ${type === 'rent' ? 'bg-white text-black border-none' : 'btn'}`} onClick={onChange} id="type" value="rent">
+                    <button className={`btn w-1/2 ${type === 'rent' ? 'btn' : 'bg-white text-black border-none'}`} onClick={onChange} id="type" value="rent">
                         Rent
                     </button>
                 </div>
@@ -42,7 +72,9 @@ const CreateListing = () => {
                     id="name"
                     value={name}
                     onChange={onChange}
-                    className="w-full p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700"
+                    className="w-full p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700 text-center"
+                    min="6"
+                    max="50"
                     placeholder="Enter the Name Here"
                 />
                 {/* beds and baths */}
@@ -51,10 +83,12 @@ const CreateListing = () => {
                         <p className="text-lg mt-6 font-semibold">Beds</p>
                         <input
                             type="number"
-                            id="bed"
+                            id="bedrooms"
                             value={bedrooms}
                             onChange={onChange}
-                            className="w-1/2 p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700"
+                            required
+                            className="w-1/2 p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700 text-center"
+                            placeholder="Number"
                         />
                     </div>
 
@@ -62,10 +96,11 @@ const CreateListing = () => {
                         <p className="text-lg mt-6 font-semibold">Baths</p>
                         <input
                             type="number"
-                            id="bath"
+                            id="bathrooms"
                             value={bathrooms}
                             onChange={onChange}
-                            className="w-1/2 p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700"
+                            required
+                            className="w-11/12 p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700 text-center"
                         />
                     </div>
                 </div>
@@ -73,10 +108,10 @@ const CreateListing = () => {
                 {/* parking spot */}
                 <p className="text-lg mt-6 font-semibold">Parking Spot</p>
                 <div className="flex justify-between gap-4 mt-4 items-center">
-                    <button className={`btn w-1/2 ${parking === 'yes' ? 'bg-white text-black border-none' : 'btn'}`} id="parking" value="yes" onClick={onChange}>
+                    <button className={`btn w-1/2 ${parking === 'yes' ? 'btn' : 'bg-white text-black border-none'}`} id="parking" value="yes" onClick={onChange}>
                         Yes
                     </button>
-                    <button className={`btn w-1/2 ${parking === 'no' ? 'bg-white text-black border-none' : 'btn'}`} onClick={onChange} id="parking" value="no">
+                    <button className={`btn w-1/2 ${parking === 'no' ? 'btn' : 'bg-white text-black border-none'}`} onClick={onChange} id="parking" value="no">
                         No
                     </button>
                 </div>
@@ -84,10 +119,10 @@ const CreateListing = () => {
                 {/* Furnished */}
                 <p className="text-lg mt-6 font-semibold">Furnished</p>
                 <div className="flex justify-between gap-4 mt-4 items-center">
-                    <button className={`btn w-1/2 ${furnished === 'yes' ? 'bg-white text-black border-none' : 'btn'}`} id="furnished" value="yes" onClick={onChange}>
+                    <button className={`btn w-1/2 ${furnished === 'yes' ? 'btn' : 'bg-white text-black border-none'}`} id="furnished" value="yes" onClick={onChange}>
                         Yes
                     </button>
-                    <button className={`btn w-1/2 ${furnished === 'no' ? 'bg-white text-black border-none' : 'btn'}`} onClick={onChange} id="furnished" value="no">
+                    <button className={`btn w-1/2 ${furnished === 'no' ? 'btn' : 'bg-white text-black border-none'}`} onClick={onChange} id="furnished" value="no">
                         No
                     </button>
                 </div>
@@ -103,6 +138,33 @@ const CreateListing = () => {
                     onChange={onChange}
                     className="w-full p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700"
                     placeholder="Address"></textarea>
+                {!geoLoactionEnabled && (
+                    <div className="flex">
+                        <div className="">
+                            <p className="text-lg mt-6 font-semibold">Latitude</p>
+                            <input
+                                type="number"
+                                id="latitude"
+                                value={latitude}
+                                onChange={onChange}
+                                required
+                                className="w-11/12 p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700 text-center"
+                            />
+                        </div>
+
+                        <div className="">
+                            <p className="text-lg mt-6 font-semibold">Longitude</p>
+                            <input
+                                type="number"
+                                id="longitude"
+                                value={longitude}
+                                onChange={onChange}
+                                required
+                                className="w-11/12 p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700 text-center"
+                            />
+                        </div>
+                    </div>
+                )}
 
                 {/* Description */}
                 <p className="text-lg mt-6 font-semibold">Description</p>
@@ -119,10 +181,10 @@ const CreateListing = () => {
                 {/* offer */}
                 <p className="text-lg mt-6 font-semibold">Offer</p>
                 <div className="flex justify-between gap-4 mt-4 items-center">
-                    <button className={`btn w-1/2 ${offer === 'yes' ? 'bg-white text-black border-none' : 'btn'}`} id="offer" value="yes" onClick={onChange}>
+                    <button className={`btn w-1/2 ${offer === 'yes' ? 'btn' : 'bg-white text-black border-none'}`} id="offer" value="yes" onClick={onChange}>
                         Yes
                     </button>
-                    <button className={`btn w-1/2 ${offer === 'no' ? 'bg-white text-black border-none' : 'btn'}`} onClick={onChange} id="offer" value="no">
+                    <button className={`btn w-1/2 ${offer === 'no' ? 'btn' : 'bg-white text-black border-none'}`} onClick={onChange} id="offer" value="no">
                         No
                     </button>
                 </div>
@@ -133,10 +195,10 @@ const CreateListing = () => {
                     <div className="flex gap-6">
                         <input
                             type="number"
-                            id="regular-price"
+                            id="regularPrice"
                             value={regularPrice}
                             onChange={onChange}
-                            className="w-11/12 p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700"
+                            className="w-11/12 p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700 text-center"
                         />
                         {type === 'rent' && (
                             <div className="flex items-center">
@@ -152,10 +214,10 @@ const CreateListing = () => {
                     <div className="flex gap-6">
                         <input
                             type="number"
-                            id="discount-price"
+                            id="discountedPrice"
                             value={discountedPrice}
                             onChange={onChange}
-                            className="w-11/12 p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700"
+                            className="w-11/12 p-2 rounded-md   outline-red-300 outline-4 border-4 transition ease-in-out px-4 text-xl text-gray-700 text-center"
                         />
                         {type === 'sell' && (
                             <div className="flex items-center">
@@ -169,7 +231,7 @@ const CreateListing = () => {
                 <div className="space-y-4 mb-10">
                     <p className="text-lg mt-6 font-semibold">Images</p>
                     <p className="font-semibold">The first image will be the cover (max.6)</p>
-                    <input type="file" id="images" class="file-input file-input-bordered file-input-error w-full max-w-xs" onChange={onChange} accept=".jpg,.png,.jpeg" multiple required />
+                    <input type="file" id="images" className="file-input file-input-bordered file-input-error w-full max-w-xs" onChange={onChange} accept=".jpg,.png,.jpeg" multiple required />
                 </div>
 
                 <button type="submit" className="btn w-full bg-blue-600 border-none font-medium hover:shadow-xl mb-10">
