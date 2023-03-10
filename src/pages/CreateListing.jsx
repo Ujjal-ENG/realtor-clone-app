@@ -1,3 +1,4 @@
+import { async } from '@firebase/util';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import Spinner from '../components/Spinner';
@@ -18,9 +19,10 @@ const CreateListing = () => {
         regularPrice: 0,
         discountedPrice: 0,
         latitude: 0,
-        longitude: 0
+        longitude: 0,
+        images: {}
     });
-    const { type, name, bedrooms, bathrooms, address, description, parking, offer, furnished, regularPrice, discountedPrice, latitude, longitude } = formData;
+    const { type, name, bedrooms, bathrooms, address, description, parking, offer, furnished, regularPrice, discountedPrice, latitude, longitude, images } = formData;
     const onChange = (e) => {
         e.preventDefault();
         if (e.target.files) {
@@ -34,18 +36,34 @@ const CreateListing = () => {
                 ...prevState,
                 [e.target.id]: e.target.value
             }));
+            console.log(e.target.value);
         }
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         setLoading(false);
         if (discountedPrice >= regularPrice) {
             setLoading(false);
             toast.error('Discounted Price needs to be less than regular price');
+            return;
         }
-        return;
+
+        if (images.length > 0 && images.length > 6) {
+            toast.error('Maximum Images upload should be 6');
+            return;
+        }
+
+        let geoLocation = {};
+        let location;
+        if (geoLoactionEnabled) {
+            const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?addredd=${address}&key=${'AIzaSyCOdySOyUX4hpLHv3sxdOF1TvB5d-EzTPs'}`);
+
+            const data = await response.json();
+            console.log(data);
+        }
     };
+
     if (loading) {
         return <Spinner />;
     }
